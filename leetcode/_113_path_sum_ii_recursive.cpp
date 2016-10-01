@@ -30,7 +30,6 @@
 #include <vector>
 #include <memory>
 #include <algorithm>
-#include <limits>
 
 class Solution {
 private:
@@ -87,8 +86,7 @@ private:
 public:
     std::vector<std::vector<int>> pathSum(TreeNode* root, int sum)
     {
-        static constexpr auto min_int = std::numeric_limits<int>::lowest();
-        if (!root) return vector<vector<int>>();
+        if (!root) return std::vector<std::vector<int>>();
         std::vector<std::vector<int>> result;
         recurse(root->val, std::make_shared<MoveNode>(root->val, nullptr), root, sum, result);
         return result;
