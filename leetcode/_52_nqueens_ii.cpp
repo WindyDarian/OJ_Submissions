@@ -15,7 +15,7 @@
 //==============================================================================
 //
 // Created on Oct 1, 2016
-// https://leetcode.com/problems/n-queens/
+// https://leetcode.com/problems/n-queens-ii/
 
 #include <vector>
 #include <string>
@@ -25,11 +25,10 @@
 class Solution
 {
 public:
-    std::vector<std::vector<std::string>> solveNQueens(int n)
+    int totalNQueens(int n)
     {
         using std::vector;
-        std::vector<std::vector<std::string>> results;
-        const std::vector<string> template_result(n, std::string(n, '.'));
+        int total_n_queens = 0;
         // k = positions[i] indicates k-th column of i-th row is possessed
         vector<int> positions(n);
         for (int i = 0; i < n; i++) { positions[i] = i; }
@@ -47,18 +46,12 @@ public:
             return true;
         };
 
-        std::function<void(int)> recursive_solve = [n, &positions, &results, &template_result, &recursive_solve, is_new_row_valid](int prefix_length)
+        std::function<void(int)> recursive_solve = [n, &positions, &total_n_queens, &recursive_solve, is_new_row_valid](int prefix_length)
         {
             if (!is_new_row_valid(prefix_length)) return;
             if (prefix_length == n)
             {
-                results.push_back(template_result);
-                auto& new_result = results.back();
-                for (int i = 0; i < n; i++)
-                {
-                    new_result[i][positions[i]] = 'Q';
-                }
-                return;
+                total_n_queens++;
             }
             for (auto i = prefix_length; i < n; i++)
             {
@@ -70,6 +63,6 @@ public:
 
         recursive_solve(0);
 
-        return results;
+        return total_n_queens;
     }
 };
