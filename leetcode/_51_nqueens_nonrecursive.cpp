@@ -16,7 +16,7 @@
 //
 // Created on Oct 1, 2016
 // https://leetcode.com/problems/n-queens/
-
+W
 #include <vector>
 #include <string>
 #include <cmath>
