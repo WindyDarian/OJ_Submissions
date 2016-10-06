@@ -1,42 +1,44 @@
-#include <queue>
-#include <utility> // for std::pair
+#include <algorithm>
 
 class Solution {
 public:
     int splitArray(vector<int>& nums, int m)
     {
-        auto min_heap_cmp = [](int v1, int v2)
+        // The solution must be between [max_element, sum_all]
+        auto max_element = 0L;
+        auto sum_all = 0L;
+        for (auto num : nums)
         {
-            return v1 < v2;
+            if (num > max_element) {max_element = num;}
+            sum_all += num;
+        }
+
+        auto calculate_valid_as_max = [&nums, m](decltype(sum_all) desired_max)
+        {
+            auto current_subarray_sum = 0L;
+            auto current_cuts = 0;
+            for (auto num : nums)
+            {
+                current_subarray_sum += num;
+                if (current_subarray_sum > desired_max)
+                {
+                    current_cuts++;
+                    if (current_cuts >= m)
+                    {
+                        return false;
+                    }
+                    current_subarray_sum = num;
+                }
+            }
+            return true;
         };
-        using min_heap_t = std::priority_queue<int, std::vector<int>, decltype(min_heap_cmp)>;
-        using min_heap_sum_pair = std::pair<min_heap_t, int>;
-        auto sort_by_sum = [](const min_heap_sum_pair& v1, const min_heap_sum_pair& v2)
+        
+        for (auto current = max_element; current <= sum_all; current++)
         {
-            return v1.second < v2.second;
-        };
-
-        std::vector<min_heap_sum_pair> heaps_and_current_sums(m);
-        std::vector<int> popped_values;
-
-        auto add_value = [&popped_values, &heaps_and_current_sums, sort_by_sum] (int value)
-        {
-            // try adding the value to the heap with minimum sum
-            auto& heap_with_minimal_sum = heaps_and_current_sums.front().first;
-            auto& minimal_sum = heaps_and_current_sums.front().second;
-            heap_with_minimal_sum.push(value);
-            minimal_sum.add_value();
-
-            std::sort(heaps_and_current_sums.begin(), heaps_and_current_sums.end(), sort_by_sum);
-
-            // auto& heap_with_maximal_sum = heaps_and_current_sums.back();
-            // heap_with_minimal_sum.first.push(value);
-            // heap_with_minimal_sum.stacks_and_current_sums[0]
-        };
-
-        for (auto value: nums)
-        {
-
+            if (calculate_valid_as_max(current))
+            {
+                return current;
+            }
         }
 
         return 0;
