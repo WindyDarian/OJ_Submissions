@@ -15,7 +15,7 @@
 //==============================================================================
 //
 // Created on Oct 5, 2016
-// https://leetcode.com/problems/longest-palindrome/
+// https://leetcode.com/problems/split-array-largest-sum/
 
 #include <algorithm>
 
