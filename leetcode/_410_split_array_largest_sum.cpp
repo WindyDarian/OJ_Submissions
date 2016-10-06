@@ -13,6 +13,8 @@ public:
             sum_all += num;
         }
 
+        // This lambda function is used to examine if a value is valid as
+        // a value equal or greater than min value of maximum of subarrays
         auto calculate_valid_as_max = [&nums, m](decltype(sum_all) desired_max)
         {
             auto current_subarray_sum = 0L;
@@ -32,15 +34,24 @@ public:
             }
             return true;
         };
-        
-        for (auto current = max_element; current <= sum_all; current++)
+
+        // using binary search
+        auto lower_bound = max_element;
+        auto upper_bound = sum_all;
+        decltype(upper_bound) middle;
+        while (lower_bound < upper_bound)
         {
-            if (calculate_valid_as_max(current))
+            middle = (lower_bound + upper_bound) / 2;
+            if (calculate_valid_as_max(middle))
             {
-                return current;
+                upper_bound = middle;
+            }
+            else
+            {
+                lower_bound = middle + 1;
             }
         }
 
-        return 0;
+        return lower_bound;
     }
 };
