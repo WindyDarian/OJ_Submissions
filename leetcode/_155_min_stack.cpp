@@ -13,9 +13,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //==============================================================================
-//
+// Design a stack that supports push, pop, top, and retrieving the minimum element in constant time.
 // Created on June 24, 2016
-// https://leetcode.com/problems/implement-stack-using-queues/
+// https://leetcode.com/problems/min-stack/
 
 #include <stack>
 class MinStack
