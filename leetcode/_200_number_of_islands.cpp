@@ -14,7 +14,7 @@
 // limitations under the License.
 //==============================================================================
 //
-// Created on Oct 22, 2016
+// Created on Oct 23, 2016
 // https://leetcode.com/problems/number-of-islands/
 
 #include <vector>
@@ -41,7 +41,8 @@ public:
             return 0;
         }
 
-        vector<vector<char>> map = grid;
+        // Copy to prevent polluting original map
+        auto map = grid;
         std::function<bool(int, int)> dfs_visit = [&map, &dfs_visit, nrow, ncol](int r, int c) -> bool
         {
             // Out of bound
