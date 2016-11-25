@@ -1,43 +1,58 @@
-# wrong
+#-*- coding:utf-8 -*-
+# ==============================================================================
+#   Copyright 2016 Windy Darian (Ruoyu Fan)
 #
-# # do some nice dynamic programming for odd and even palindromes separately
-# class Solution(object):
-#     def longestPalindrome(self, s):
-#         """
-#         :type s: str
-#         :rtype: str
-#         """
-#         if not s:
-#             return s
+#   Licensed under the Apache License, Version 2.0 (the "License");
+#   you may not use this file except in compliance with the License.
+#   You may obtain a copy of the License at
 #
-#         longest_start = 0
-#         longest_length = 1
-#         current_odd_length = 0
-#         current_even_length = 0
-#         current_odd_mid_point = 0
-#         current_even_mid_point = 0
-#         for index, _ in enumerate(s):
-#             if index == 0:
-#                 continue
+#        http://www.apache.org/licenses/LICENSE-2.0
 #
-#             iother_odd = 2 * current_odd_mid_point - index
-#             if iother_odd < 0 or s[iother_odd] != s[index]:
-#                 current_odd_mid_point = index
-#                 current_odd_length = 0
-#             else:
-#                 current_odd_length += 1
-#                 if current_odd_length * 2 + 1 > longest_length:
-#                     longest_start = iother_odd
-#                     longest_length = current_odd_length * 2 + 1
-#
-#             iother_even = 2 * current_even_mid_point - index + 1
-#             if iother_even < 0 or s[iother_even] != s[index]:
-#                 current_even_mid_point = index
-#                 current_even_length = 0
-#             else:
-#                 current_even_length += 1
-#                 if current_even_length * 2 > longest_length:
-#                     longest_start = iother_even
-#                     longest_length = current_even_length * 2
-#
-#         return s[longest_start:longest_start + longest_length]
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS,
+#    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#    See the License for the specific language governing permissions and
+#    limitations under the License.
+# ==============================================================================
+'''
+Created on Nov 24, 2016
+https://leetcode.com/problems/longest-palindromic-substring/
+@author: Windy Darian (Ruoyu Fan)
+'''
+
+# TODO: solve this in O(n)
+
+class Solution(object):
+    def longestPalindrome(self, s):
+        """
+        :type s: str
+        :rtype: str
+        """
+
+        def palin_length(mid1, mid2):
+            if mid1 == mid2:
+                length = -1
+            else:
+                length = 0
+            while  0 <= mid1 <= mid2 < len(s):
+                if s[mid1] == s[mid2]:
+                    length += 2
+                    mid1 -= 1
+                    mid2 += 1
+                else:
+                    break
+            return length, mid1, mid2
+
+        max_length = 0;
+        max_str = '';
+        for i in xrange(len(s)):
+            length, start, end = palin_length(i, i)
+            if length > max_length:
+                max_length = length
+                max_str = s[start:end]
+
+            length, start, end = palin_length(i, i + 1)
+            if length > max_length:
+                max_length = length
+                max_str = s[start:end]
+        return max_str
