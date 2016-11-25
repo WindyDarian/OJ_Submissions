@@ -17,18 +17,22 @@
 // Created on Nov 24, 2016
 // https://leetcode.com/problems/search-a-2d-matrix/
 
-// map 2d to 1d and do one binary search 
+// map 2d to 1d and do one binary search
+
+#include <vector>
+#include <tuple>
+#include <utility>
 
 class Solution
 {
 public:
-    bool searchMatrix(vector<vector<int>>& matrix, int target)
+    bool searchMatrix(std::vector<std::vector<int>>& matrix, int target)
     {
         auto nrow = matrix.size();
         if (nrow == 0) return false;
         auto ncol = matrix[0].size();
 
-        auto one_to_two = [&matrix, ncol](int input)
+        auto one_to_two = [ncol](int input)
         {
             return std::make_pair(input/ncol, input%ncol);
         };
@@ -40,11 +44,12 @@ public:
         {
             auto mid = (start + end) / 2;
             std::tie(i,j) = one_to_two(mid);
-            if (matrix[i][j] == target)
+            auto current = matrix[i][j];
+            if (current == target)
             {
                 return true;
             }
-            if (matrix[i][j] < target)
+            if (current < target)
             {
                 start = mid + 1;
             }
