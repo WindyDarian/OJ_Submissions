@@ -26,11 +26,11 @@ class Solution
 public:
     int lengthOfLongestSubstringTwoDistinct(std::string s)
     {
-        std::unordered_map<int, size_t> seen_characters;
-        auto p_slow = s.begin();
-        auto p_fast = s.begin();
-        decltype(s.end()-s.begin()) max_length = 0;
-        while (p_fast != s.end())
+        std::unordered_map<char, size_t> seen_characters;
+        auto p_slow = s.cbegin();
+        auto p_fast = s.cbegin();
+        decltype(s.cend()-s.cbegin()) max_length = 0;
+        while (p_fast != s.cend())
         {
             auto ch = *p_fast;
             if (seen_characters.count(ch) == 0)

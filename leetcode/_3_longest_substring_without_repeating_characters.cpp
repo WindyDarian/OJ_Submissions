@@ -15,42 +15,35 @@
 //==============================================================================
 //
 // Created on Jan 1, 2017
-// https://leetcode.com/problems/longest-substring-with-at-most-two-distinct-characters/
+// https://leetcode.com/problems/longest-substring-without-repeating-characters/
 
+#include <unordered_set>
 #include <string>
-#include <unordered_map>
 #include <algorithm>
 
-class Solution {
+class Solution
+{
 public:
-    int lengthOfLongestSubstringKDistinct(std::string s, int k) {
-        std::unordered_map<char, size_t> seen_characters;
-        auto p_slow = s.cbegin();
+    int lengthOfLongestSubstring(std::string s)
+    {
+        std::unordered_set<char> seen_characters;
         auto p_fast = s.cbegin();
-        decltype(s.cend()-s.cbegin()) max_length = 0;
+        auto p_slow = s.cbegin();
+        decltype(p_fast-p_slow) max_length = 0;
+
         while (p_fast != s.cend())
         {
             auto ch = *p_fast;
-            if (seen_characters.count(ch) == 0)
+            while (seen_characters.count(ch) > 0)
             {
-                seen_characters[ch] = 0;
-            }
-            seen_characters[ch]++;
-            p_fast++;
-
-            while (seen_characters.size() > k)
-            {
-                auto slow_ch = *p_slow;
-                seen_characters[slow_ch]--;
-                if (seen_characters[slow_ch] == 0)
-                {
-                    seen_characters.erase(slow_ch);
-                }
+                seen_characters.erase(*p_slow);
                 p_slow++;
             }
-            auto length = p_fast - p_slow;
-            max_length = std::max(length, max_length);
+            seen_characters.insert(ch);
+            p_fast++;
+            max_length = std::max(p_fast - p_slow, max_length);
         }
-        return static_cast<int>(max_length);
+
+        return max_length;
     }
 };
